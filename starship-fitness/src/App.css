@@ -1,0 +1,29 @@
+.App {
+  text-align: center;
+  padding: 20px;
+}
+
+form {
+  margin: 20px auto;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
