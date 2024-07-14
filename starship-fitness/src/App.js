@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { Container, Typography, TextField, MenuItem, Button, Box } from '@mui/material';
+import NavBar from './NavBar';
 import './App.css';
 
 function App() {
+  const [currentTab, setCurrentTab] = useState('home');
   const [formData, setFormData] = useState({
     name: '',
     age: '',
@@ -22,121 +22,96 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/recommendation', formData);
-      setRecommendation(response.data);
+      const response = await fetch('http://localhost:5000/api/recommendation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+      const data = await response.json();
+      setRecommendation(data);
     } catch (error) {
       console.error(error);
     }
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box sx={{ bgcolor: '#cfe8fc', padding: 4, borderRadius: 2, mt: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Starship Fitness
-        </Typography>
-        <form onSubmit={handleSubmit}>
-          <TextField
-            label="Name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            variant="outlined"
-          />
-          <TextField
-            label="Age"
-            name="age"
-            value={formData.age}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            variant="outlined"
-            type="number"
-          />
-          <TextField
-            label="Height (cm)"
-            name="height"
-            value={formData.height}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            variant="outlined"
-            type="number"
-          />
-          <TextField
-            label="Weight (kg)"
-            name="weight"
-            value={formData.weight}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            variant="outlined"
-            type="number"
-          />
-          <TextField
-            select
-            label="Fitness Goal"
-            name="goal"
-            value={formData.goal}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            variant="outlined"
-          >
-            <MenuItem value="lose">Lose Weight</MenuItem>
-            <MenuItem value="gain">Gain Weight</MenuItem>
-            <MenuItem value="maintain">Maintain Weight</MenuItem>
-          </TextField>
-          <TextField
-            select
-            label="Fitness Level"
-            name="fitnessLevel"
-            value={formData.fitnessLevel}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            variant="outlined"
-          >
-            <MenuItem value="beginner">Beginner</MenuItem>
-            <MenuItem value="intermediate">Intermediate</MenuItem>
-            <MenuItem value="advanced">Advanced</MenuItem>
-          </TextField>
-          <TextField
-            select
-            label="Preferred Workout Type"
-            name="workoutType"
-            value={formData.workoutType}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            variant="outlined"
-          >
-            <MenuItem value="weights">Weights</MenuItem>
-            <MenuItem value="bodyweight">BodyWeight</MenuItem>
-            <MenuItem value="cardio">Cardio</MenuItem>
-          </TextField>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-            sx={{ mt: 2 }}
-          >
-            Get Recommendation
-          </Button>
-        </form>
-        {recommendation && (
-          <Box sx={{ mt: 4 }}>
-            <Typography variant="h6" component="h2">
-              Recommended Workout:
-            </Typography>
-            <Typography>{recommendation}</Typography>
-          </Box>
-        )}
-      </Box>
-    </Container>
+    <div className="App">
+      <NavBar currentTab={currentTab} setCurrentTab={setCurrentTab} />
+      {currentTab === 'home' && (
+        <div className="tab-content">
+          <h1>Welcome to Starship Fitness</h1>
+          <p>Get ready to embark on your fitness journey with us!</p>
+        </div>
+      )}
+      {currentTab === 'form' && (
+        <div className="tab-content">
+          <h1>Fitness Form</h1>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              name="name"
+              placeholder="Name"
+              value={formData.name}
+              onChange={handleChange}
+            />
+            <input
+              type="number"
+              name="age"
+              placeholder="Age"
+              value={formData.age}
+              onChange={handleChange}
+            />
+            <input
+              type="number"
+              name="height"
+              placeholder="Height (cm)"
+              value={formData.height}
+              onChange={handleChange}
+            />
+            <input
+              type="number"
+              name="weight"
+              placeholder="Weight (kg)"
+              value={formData.weight}
+              onChange={handleChange}
+            />
+            <select name="goal" value={formData.goal} onChange={handleChange}>
+              <option value="">Select Goal</option>
+              <option value="lose">Lose Weight</option>
+              <option value="gain">Gain Weight</option>
+              <option value="maintain">Maintain Weight</option>
+            </select>
+            <select name="fitnessLevel" value={formData.fitnessLevel} onChange={handleChange}>
+              <option value="">Select Fitness Level</option>
+              <option value="beginner">Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
+            <select name="workoutType" value={formData.workoutType} onChange={handleChange}>
+              <option value="">Select Workout Type</option>
+              <option value="weights">Weights</option>
+              <option value="bodyweight">BodyWeight</option>
+              <option value="cardio">Cardio</option>
+            </select>
+            <button type="submit">Get Recommendation</button>
+          </form>
+          {recommendation && (
+            <div className="recommendation">
+              <h2>Recommended Workout:</h2>
+              <p>{recommendation}</p>
+            </div>
+          )}
+        </div>
+      )}
+      {currentTab === 'about' && (
+        <div className="tab-content">
+          <h1>About Starship Fitness</h1>
+          <p>Learn more about our mission and values.</p>
+        </div>
+      )}
+    </div>
   );
 }
 
