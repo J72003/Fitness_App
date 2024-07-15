@@ -1,29 +1,27 @@
-// Footer.js
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebookF, faTwitter, faInstagram, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
+import './App.css';
 
-const Footer = () => {
+function Footer() {
   return (
-    <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
-      <Typography variant="h6" align="center" gutterBottom>
-        Starship Fitness
-      </Typography>
-      <Typography variant="subtitle1" align="center" color="text.secondary" component="p">
-        Follow us on social media:
-      </Typography>
-      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+    <footer className="footer">
+      <div className="social-media-links">
         <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-          Facebook
+          <FontAwesomeIcon icon={faFacebookF} />
         </a>
-        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>
-          Twitter
+        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+          <FontAwesomeIcon icon={faTwitter} />
         </a>
-        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>
-          Instagram
+        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+          <FontAwesomeIcon icon={faInstagram} />
         </a>
-      </Box>
-    </Box>
+        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+          <FontAwesomeIcon icon={faLinkedinIn} />
+        </a>
+      </div>
+    </footer>
   );
-};
+}
 
 export default Footer;

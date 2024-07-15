@@ -3,6 +3,10 @@ import { AppBar, Tabs, Tab, Container, TextField, MenuItem, Button, Box, Typogra
 import { FitnessCenter, DirectionsRun } from '@mui/icons-material';
 import './App.css';
 import Footer from './Footer'; // Import the Footer component
+import Gym from './Gym.jpg';
+import Feature1 from './feature-1.jpg';
+import Feature2 from './feature-2.jpg';
+import Feature3 from './feature-3.jpg';
 
 function App() {
   const [currentTab, setCurrentTab] = useState('home');
@@ -24,6 +28,15 @@ function App() {
 
   const generateWorkoutSchedule = () => {
     // Your existing generateWorkoutSchedule function
+    return [
+      "Monday: Cardio for 30 minutes",
+      "Tuesday: Strength Training",
+      "Wednesday: Rest",
+      "Thursday: Cardio for 30 minutes",
+      "Friday: Strength Training",
+      "Saturday: Cardio for 30 minutes",
+      "Sunday: Rest"
+    ];
   };
 
   const handleSubmit = (e) => {
@@ -61,30 +74,26 @@ function App() {
                 color="secondary"
                 size="large"
                 sx={{ mt: 2 }}
-                onClick={() => console.log('Get Started button clicked!')}
+                onClick={() => setCurrentTab('form')}
               >
                 Get Started
               </Button>
             </Box>
-            <Box className="home-features" sx={{ display: 'flex', justifyContent: 'space-around', mt: 4 }}>
-              <Card sx={{ maxWidth: 345, boxShadow: 3, transition: 'transform 0.2s', '&:hover': { transform: 'scale(1.05)' } }}>
-                <CardContent>
-                  <FitnessCenter fontSize="large" />
-                  <Typography variant="h5" component="div" sx={{ mt: 2 }}>Strength Training</Typography>
-                  <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                    Customized plans for building muscle and gaining strength.
-                  </Typography>
-                </CardContent>
-              </Card>
-              <Card sx={{ maxWidth: 345, boxShadow: 3, transition: 'transform 0.2s', '&:hover': { transform: 'scale(1.05)' } }}>
-                <CardContent>
-                  <DirectionsRun fontSize="large" />
-                  <Typography variant="h5" component="div" sx={{ mt: 2 }}>Cardio Workouts</Typography>
-                  <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                    High-intensity and steady-state cardio routines for fat loss.
-                  </Typography>
-                </CardContent>
-              </Card>
+            <Box className="home-features" sx={{ display: 'flex', justifyContent: 'space-around', mt: 4, flexWrap: 'wrap' }}>
+              {[
+                { image: Gym, icon: <FitnessCenter fontSize="large" />, title: "Strength Training", description: "Customized plans for building muscle and gaining strength." },
+                { image: Feature1, icon: <DirectionsRun fontSize="large" />, title: "Cardio Workouts", description: "High-intensity and steady-state cardio routines for fat loss." },
+                { image: Feature2, title: "BodyWeight Exercises", description: "Beginner Friendly for maintaining and growing muscle." }
+              ].map((feature, index) => (
+                <Card key={index} sx={{ maxWidth: 345, boxShadow: 3, transition: 'transform 0.2s', '&:hover': { transform: 'scale(1.05)' }, m: 2 }}>
+                  <CardContent>
+                    <img src={feature.image} alt={feature.title} className="feature-image" />
+                    {feature.icon}
+                    <Typography variant="h5" component="div" sx={{ mt: 2 }}>{feature.title}</Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>{feature.description}</Typography>
+                  </CardContent>
+                </Card>
+              ))}
             </Box>
           </Box>
         )}
