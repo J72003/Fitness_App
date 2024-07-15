@@ -138,13 +138,13 @@ function App() {
       <Container>
         {currentTab === 'home' && (
           <Box className="tab-content">
-            <Box className="home-banner" sx={{ my: 4, p: 4, textAlign: 'center', borderRadius: 2 }}>
+            <Box className="home-banner" sx={{ my: 4, p: 4, textAlign: 'center', borderRadius: 2, background: 'linear-gradient(135deg, #ff6f61, #ffcc5c)', color: 'white' }}>
               <Typography variant="h2" gutterBottom>Welcome to Starship Fitness</Typography>
               <Typography variant="h6" gutterBottom>Embark on your fitness journey with us!</Typography>
-              <Button variant="contained" color="primary" size="large" sx={{ mt: 2 }}>Get Started</Button>
+              <Button variant="contained" color="secondary" size="large" sx={{ mt: 2 }}>Get Started</Button>
             </Box>
             <Box className="home-features" sx={{ display: 'flex', justifyContent: 'space-around', mt: 4 }}>
-              <Card sx={{ maxWidth: 345 }}>
+              <Card sx={{ maxWidth: 345, boxShadow: 3, transition: 'transform 0.2s', '&:hover': { transform: 'scale(1.05)' } }}>
                 <CardContent>
                   <FitnessCenter fontSize="large" />
                   <Typography variant="h5" component="div" sx={{ mt: 2 }}>Strength Training</Typography>
@@ -153,7 +153,7 @@ function App() {
                   </Typography>
                 </CardContent>
               </Card>
-              <Card sx={{ maxWidth: 345 }}>
+              <Card sx={{ maxWidth: 345, boxShadow: 3, transition: 'transform 0.2s', '&:hover': { transform: 'scale(1.05)' } }}>
                 <CardContent>
                   <DirectionsRun fontSize="large" />
                   <Typography variant="h5" component="div" sx={{ mt: 2 }}>Cardio Workouts</Typography>
@@ -162,7 +162,7 @@ function App() {
                   </Typography>
                 </CardContent>
               </Card>
-              <Card sx={{ maxWidth: 345 }}>
+              <Card sx={{ maxWidth: 345, boxShadow: 3, transition: 'transform 0.2s', '&:hover': { transform: 'scale(1.05)' } }}>
                 <CardContent>
                   <Group fontSize="large" />
                   <Typography variant="h5" component="div" sx={{ mt: 2 }}>Group Classes</Typography>

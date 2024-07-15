@@ -22,15 +22,26 @@ body {
 
 .tab-content {
   padding: 20px;
-  animation: fadeIn 0.5s;
+  animation: fadeIn 1s ease-in-out;
 }
 
 .home-banner {
-  background-color: #ff5722;
+  background: linear-gradient(135deg, #ff5722, #e64a19);
   color: white;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  animation: slideIn 0.5s;
+  animation: slideInFromTop 1s ease-in-out;
+}
+
+@keyframes slideInFromTop {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .home-features {
@@ -42,21 +53,24 @@ body {
 .home-features .MuiCard-root {
   background-color: #4caf50;
   color: white;
-  transition: transform 0.3s ease;
+  transition: transform 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+  cursor: pointer;
 }
 
 .home-features .MuiCard-root:hover {
   transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .form-container {
   background-color: #fff;
+  border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  padding: 30px;
   max-width: 600px;
-  margin: 20px auto;
-  animation: slideIn 0.5s;
+  margin: 30px auto;
+  animation: slideIn 1s ease-in-out;
 }
 
 @keyframes fadeIn {
@@ -86,18 +100,29 @@ button {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
 button:hover {
   background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
 }
 
 .error {
   color: red;
   margin-top: -10px;
   margin-bottom: 10px;
+  font-weight: bold;
 }
 
 .recommendation {
   margin-top: 20px;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 4px;
 }
