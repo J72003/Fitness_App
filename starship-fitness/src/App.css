@@ -10,26 +10,73 @@ body {
   text-align: center;
 }
 
-.tab-content {
+.MuiContainer-root {
   padding: 20px;
 }
 
-form {
+.tabs-container {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
-  max-width: 400px;
-  margin: 0 auto;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.tab-content {
   padding: 20px;
+  animation: fadeIn 0.5s;
+}
+
+.home-banner {
+  background-color: #ff5722;
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  animation: slideIn 0.5s;
+}
+
+.home-features {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.home-features .MuiCard-root {
+  background-color: #4caf50;
+  color: white;
+  transition: transform 0.3s ease;
+}
+
+.home-features .MuiCard-root:hover {
+  transform: scale(1.05);
+}
+
+.form-container {
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 600px;
+  margin: 20px auto;
+  animation: slideIn 0.5s;
 }
 
-input, select {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 button {
@@ -43,6 +90,12 @@ button {
 
 button:hover {
   background-color: #0056b3;
+}
+
+.error {
+  color: red;
+  margin-top: -10px;
+  margin-bottom: 10px;
 }
 
 .recommendation {
