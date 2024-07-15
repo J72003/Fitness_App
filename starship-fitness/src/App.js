@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AppBar, Tabs, Tab, Container, TextField, MenuItem, Button, Box, Typography, Toolbar, Card, CardContent } from '@mui/material';
-import { FitnessCenter, DirectionsRun, Group } from '@mui/icons-material';
+import { FitnessCenter, DirectionsRun } from '@mui/icons-material';
 import './App.css';
 
 function App() {
@@ -159,15 +159,6 @@ function App() {
                   <Typography variant="h5" component="div" sx={{ mt: 2 }}>Cardio Workouts</Typography>
                   <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
                     High-intensity and steady-state cardio routines for fat loss.
-                  </Typography>
-                </CardContent>
-              </Card>
-              <Card sx={{ maxWidth: 345, boxShadow: 3, transition: 'transform 0.2s', '&:hover': { transform: 'scale(1.05)' } }}>
-                <CardContent>
-                  <Group fontSize="large" />
-                  <Typography variant="h5" component="div" sx={{ mt: 2 }}>Group Classes</Typography>
-                  <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                    Join our group classes for a fun and engaging workout experience.
                   </Typography>
                 </CardContent>
               </Card>

@@ -22,7 +22,6 @@ body {
 
 .tab-content {
   padding: 20px;
-  animation: fadeIn 1s ease-in-out;
 }
 
 .home-banner {
@@ -30,18 +29,6 @@ body {
   color: white;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  animation: slideInFromTop 1s ease-in-out;
-}
-
-@keyframes slideInFromTop {
-  from {
-    transform: translateY(-20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
 }
 
 .home-features {
@@ -70,27 +57,6 @@ body {
   padding: 30px;
   max-width: 600px;
   margin: 30px auto;
-  animation: slideIn 1s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
 }
 
 button {
@@ -113,16 +79,27 @@ button:focus {
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
 }
 
-.error {
-  color: red;
-  margin-top: -10px;
-  margin-bottom: 10px;
-  font-weight: bold;
+
+.cta-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.cta-button:hover {
+  background-color: #0056b3;
 }
 
-.recommendation {
-  margin-top: 20px;
-  background-color: #f9f9f9;
-  padding: 10px;
-  border-radius: 4px;
+footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}
+.social-icons a {
+  color: white;
+  margin: 0 10px;
 }
