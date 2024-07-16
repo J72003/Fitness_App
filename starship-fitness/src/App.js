@@ -26,23 +26,137 @@ function App() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const generateWorkoutSchedule = () => {
-    // Your existing generateWorkoutSchedule function
-    return [
-      "Monday: Cardio for 30 minutes",
-      "Tuesday: Strength Training",
-      "Wednesday: Rest",
-      "Thursday: Cardio for 30 minutes",
-      "Friday: Strength Training",
-      "Saturday: Cardio for 30 minutes",
-      "Sunday: Rest"
+  const generateDetailedWorkoutSchedule = (age, experienceLevel, workoutType, workoutDays) => {
+    // Define age categories
+    const ageCategories = [
+      { min: 18, max: 29 },
+      { min: 30, max: 39 },
+      { min: 40, max: 49 },
+      { min: 50, max: 59 },
+      { min: 60, max: 69 },
+      { min: 70, max: 79 },
+      { min: 80, max: 89 },
+      { min: 90, max: 99 },
+      { min: 100, max: 110 },
     ];
+
+    // Define detailed workout plans
+    const workoutPlans = {
+      beginner: {
+        weight: [
+          { day: 'Day 1', exercises: [{ name: 'Squats', sets: 3, reps: 12 }, { name: 'Bench Press', sets: 3, reps: 10 }, { name: 'Deadlift', sets: 3, reps: 8 }] },
+          { day: 'Day 2', exercises: [{ name: 'Overhead Press', sets: 3, reps: 10 }, { name: 'Barbell Row', sets: 3, reps: 12 }, { name: 'Bicep Curls', sets: 3, reps: 15 }] },
+          { day: 'Day 3', exercises: [{ name: 'Lunges', sets: 3, reps: 12 }, { name: 'Tricep Dips', sets: 3, reps: 15 }, { name: 'Leg Press', sets: 3, reps: 10 }] },
+          { day: 'Day 4', exercises: [{ name: 'Squats', sets: 3, reps: 12 }, { name: 'Bench Press', sets: 3, reps: 10 }, { name: 'Deadlift', sets: 3, reps: 8 }] },
+          { day: 'Day 5', exercises: [{ name: 'Overhead Press', sets: 3, reps: 10 }, { name: 'Barbell Row', sets: 3, reps: 12 }, { name: 'Bicep Curls', sets: 3, reps: 15 }] },
+          { day: 'Day 6', exercises: [{ name: 'Lunges', sets: 3, reps: 12 }, { name: 'Tricep Dips', sets: 3, reps: 15 }, { name: 'Leg Press', sets: 3, reps: 10 }] },
+          { day: 'Day 7', exercises: [{ name: 'Rest' }] }, // Rest day
+        ],
+        cardio: [
+          { day: 'Day 1', exercises: [{ name: 'Running', duration: '30 mins' }, { name: 'Jump Rope', duration: '15 mins' }] },
+          { day: 'Day 2', exercises: [{ name: 'Cycling', duration: '45 mins' }, { name: 'High Knees', duration: '10 mins' }] },
+          { day: 'Day 3', exercises: [{ name: 'Swimming', duration: '30 mins' }, { name: 'Burpees', duration: '15 mins' }] },
+          { day: 'Day 4', exercises: [{ name: 'Running', duration: '30 mins' }, { name: 'Jump Rope', duration: '15 mins' }] },
+          { day: 'Day 5', exercises: [{ name: 'Cycling', duration: '45 mins' }, { name: 'High Knees', duration: '10 mins' }] },
+          { day: 'Day 6', exercises: [{ name: 'Swimming', duration: '30 mins' }, { name: 'Burpees', duration: '15 mins' }] },
+          { day: 'Day 7', exercises: [{ name: 'Rest' }] }, // Rest day
+        ],
+        bodyweight: [
+          { day: 'Day 1', exercises: [{ name: 'Push-ups', sets: 3, reps: 15 }, { name: 'Pull-ups', sets: 3, reps: 10 }, { name: 'Plank', sets: 3, duration: '1 min' }] },
+          { day: 'Day 2', exercises: [{ name: 'Bodyweight Squats', sets: 3, reps: 20 }, { name: 'Lunges', sets: 3, reps: 15 }, { name: 'Mountain Climbers', sets: 3, duration: '1 min' }] },
+          { day: 'Day 3', exercises: [{ name: 'Burpees', sets: 3, reps: 15 }, { name: 'Tricep Dips', sets: 3, reps: 12 }, { name: 'Sit-ups', sets: 3, reps: 20 }] },
+          { day: 'Day 4', exercises: [{ name: 'Push-ups', sets: 3, reps: 15 }, { name: 'Pull-ups', sets: 3, reps: 10 }, { name: 'Plank', sets: 3, duration: '1 min' }] },
+          { day: 'Day 5', exercises: [{ name: 'Bodyweight Squats', sets: 3, reps: 20 }, { name: 'Lunges', sets: 3, reps: 15 }, { name: 'Mountain Climbers', sets: 3, duration: '1 min' }] },
+          { day: 'Day 6', exercises: [{ name: 'Burpees', sets: 3, reps: 15 }, { name: 'Tricep Dips', sets: 3, reps: 12 }, { name: 'Sit-ups', sets: 3, reps: 20 }] },
+          { day: 'Day 7', exercises: [{ name: 'Rest' }] }, // Rest day
+        ],
+      },
+      intermediate: {
+        weight: [
+          { day: 'Day 1', exercises: [{ name: 'Squats', sets: 4, reps: 8 }, { name: 'Bench Press', sets: 4, reps: 8 }, { name: 'Deadlift', sets: 3, reps: 6 }] },
+          { day: 'Day 2', exercises: [{ name: 'Overhead Press', sets: 4, reps: 8 }, { name: 'Barbell Row', sets: 4, reps: 8 }, { name: 'Pull-ups', sets: 3, reps: 10 }] },
+          { day: 'Day 3', exercises: [{ name: 'Lunges', sets: 3, reps: 12 }, { name: 'Dumbbell Flyes', sets: 3, reps: 12 }, { name: 'Leg Curl', sets: 3, reps: 12 }] },
+          { day: 'Day 4', exercises: [{ name: 'Squats', sets: 4, reps: 8 }, { name: 'Bench Press', sets: 4, reps: 8 }, { name: 'Deadlift', sets: 3, reps: 6 }] },
+          { day: 'Day 5', exercises: [{ name: 'Overhead Press', sets: 4, reps: 8 }, { name: 'Barbell Row', sets: 4, reps: 8 }, { name: 'Pull-ups', sets: 3, reps: 10 }] },
+          { day: 'Day 6', exercises: [{ name: 'Lunges', sets: 3, reps: 12 }, { name: 'Dumbbell Flyes', sets: 3, reps: 12 }, { name: 'Leg Curl', sets: 3, reps: 12 }] },
+          { day: 'Day 7', exercises: [{ name: 'Rest' }] }, // Rest day
+        ],
+        cardio: [
+          { day: 'Day 1', exercises: [{ name: 'Interval Running', duration: '30 mins' }, { name: 'Jump Rope', duration: '15 mins' }] },
+          { day: 'Day 2', exercises: [{ name: 'Steady State Cycling', duration: '45 mins' }, { name: 'High Knees', duration: '10 mins' }] },
+          { day: 'Day 3', exercises: [{ name: 'Swimming', duration: '30 mins' }, { name: 'Burpees', duration: '15 mins' }] },
+          { day: 'Day 4', exercises: [{ name: 'Interval Running', duration: '30 mins' }, { name: 'Jump Rope', duration: '15 mins' }] },
+          { day: 'Day 5', exercises: [{ name: 'Steady State Cycling', duration: '45 mins' }, { name: 'High Knees', duration: '10 mins' }] },
+          { day: 'Day 6', exercises: [{ name: 'Swimming', duration: '30 mins' }, { name: 'Burpees', duration: '15 mins' }] },
+          { day: 'Day 7', exercises: [{ name: 'Rest' }] }, // Rest day
+        ],
+        bodyweight: [
+          { day: 'Day 1', exercises: [{ name: 'Push-ups', sets: 4, reps: 12 }, { name: 'Pull-ups', sets: 4, reps: 8 }, { name: 'Plank', sets: 3, duration: '1 min 30 sec' }] },
+          { day: 'Day 2', exercises: [{ name: 'Bodyweight Squats', sets: 4, reps: 15 }, { name: 'Lunges', sets: 4, reps: 12 }, { name: 'Mountain Climbers', sets: 3, duration: '1 min' }] },
+          { day: 'Day 3', exercises: [{ name: 'Burpees', sets: 4, reps: 12 }, { name: 'Tricep Dips', sets: 4, reps: 10 }, { name: 'Sit-ups', sets: 4, reps: 15 }] },
+          { day: 'Day 4', exercises: [{ name: 'Push-ups', sets: 4, reps: 12 }, { name: 'Pull-ups', sets: 4, reps: 8 }, { name: 'Plank', sets: 3, duration: '1 min 30 sec' }] },
+          { day: 'Day 5', exercises: [{ name: 'Bodyweight Squats', sets: 4, reps: 15 }, { name: 'Lunges', sets: 4, reps: 12 }, { name: 'Mountain Climbers', sets: 3, duration: '1 min' }] },
+          { day: 'Day 6', exercises: [{ name: 'Burpees', sets: 4, reps: 12 }, { name: 'Tricep Dips', sets: 4, reps: 10 }, { name: 'Sit-ups', sets: 4, reps: 15 }] },
+          { day: 'Day 7', exercises: [{ name: 'Rest' }] }, // Rest day
+        ],
+      },
+      advanced: {
+        weight: [
+          { day: 'Day 1', exercises: [{ name: 'Squats', sets: 5, reps: 5 }, { name: 'Bench Press', sets: 5, reps: 5 }, { name: 'Deadlift', sets: 3, reps: 5 }] },
+          { day: 'Day 2', exercises: [{ name: 'Overhead Press', sets: 5, reps: 5 }, { name: 'Barbell Row', sets: 5, reps: 5 }, { name: 'Pull-ups', sets: 4, reps: 6 }] },
+          { day: 'Day 3', exercises: [{ name: 'Rest' }] }, // Rest day
+          { day: 'Day 4', exercises: [{ name: 'Squats', sets: 5, reps: 5 }, { name: 'Bench Press', sets: 5, reps: 5 }, { name: 'Deadlift', sets: 3, reps: 5 }] },
+          { day: 'Day 5', exercises: [{ name: 'Overhead Press', sets: 5, reps: 5 }, { name: 'Barbell Row', sets: 5, reps: 5 }, { name: 'Pull-ups', sets: 4, reps: 6 }] },
+          { day: 'Day 6', exercises: [{ name: 'Rest'}] }, // Rest day
+          { day: 'Day 7', exercises: [{ name: 'Rest' }] }, // Rest day
+        ],
+        cardio: [
+          { day: 'Day 1', exercises: [{ name: 'HIIT Running', duration: '20 mins' }, { name: 'Jump Rope', duration: '10 mins' }] },
+          { day: 'Day 2', exercises: [{ name: 'Steady State Cycling', duration: '60 mins' }, { name: 'High Knees', duration: '10 mins' }] },
+          { day: 'Day 3', exercises: [{ name: 'Rest' }] }, // Rest day
+          { day: 'Day 4', exercises: [{ name: 'HIIT Running', duration: '20 mins' }, { name: 'Jump Rope', duration: '10 mins' }] },
+          { day: 'Day 5', exercises: [{ name: 'Steady State Cycling', duration: '60 mins' }, { name: 'High Knees', duration: '10 mins' }] },
+          { day: 'Day 6', exercises: [{ name: 'Rest' }] }, // Rest day
+          { day: 'Day 7', exercises: [{ name: 'Rest' }] }, // Rest day
+        ],
+        bodyweight: [
+          { day: 'Day 1', exercises: [{ name: 'Push-ups', sets: 5, reps: 10 }, { name: 'Pull-ups', sets: 5, reps: 6 }, { name: 'Plank', sets: 3, duration: '2 min' }] },
+          { day: 'Day 2', exercises: [{ name: 'Bodyweight Squats', sets: 5, reps: 12 }, { name: 'Lunges', sets: 5, reps: 10 }, { name: 'Mountain Climbers', sets: 3, duration: '1 min 30 sec' }] },
+          { day: 'Day 3', exercises: [{ name: 'Rest' }] }, // Rest day
+          { day: 'Day 4', exercises: [{ name: 'Push-ups', sets: 5, reps: 10 }, { name: 'Pull-ups', sets: 5, reps: 6 }, { name: 'Plank', sets: 3, duration: '2 min' }] },
+          { day: 'Day 5', exercises: [{ name: 'Bodyweight Squats', sets: 5, reps: 12 }, { name: 'Lunges', sets: 5, reps: 10 }, { name: 'Mountain Climbers', sets: 3, duration: '1 min 30 sec' }] },
+          { day: 'Day 6', exercises: [{ name: 'Rest' }] }, // Rest day
+          { day: 'Day 7', exercises: [{ name: 'Rest'}] }, // Rest day
+        ],
+      },
+    };
+
+    // Determine age category
+    const ageCategory = ageCategories.find(category => age >= category.min && age <= category.max);
+
+    // Get workout plan based on experience level and workout type
+    const workoutPlan = workoutPlans[experienceLevel][workoutType];
+
+    // Generate detailed workout schedule
+    let detailedWorkoutSchedule = [];
+    for (let i = 0; i < workoutDays; i++) {
+      detailedWorkoutSchedule.push(workoutPlan[i % workoutPlan.length]);
+    }
+
+    return {
+      ageCategory,
+      experienceLevel,
+      workoutType,
+      workoutDays,
+      detailedWorkoutSchedule
+    };
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newSchedule = generateWorkoutSchedule();
-    setSchedule(newSchedule);
+    const { age, fitnessLevel, goal, daysAvailable } = formData;
+    const newSchedule = generateDetailedWorkoutSchedule(age, fitnessLevel, goal, daysAvailable);
+    setSchedule(newSchedule.detailedWorkoutSchedule);
   };
 
   return (
@@ -135,9 +249,9 @@ function App() {
                 margin="normal"
                 variant="outlined"
               >
-                <MenuItem value="muscle gain">Muscle Gain</MenuItem>
-                <MenuItem value="bodyweight">Bodyweight</MenuItem>
+                <MenuItem value="weight">Weight Training</MenuItem>
                 <MenuItem value="cardio">Cardio</MenuItem>
+                <MenuItem value="bodyweight">Bodyweight</MenuItem>
               </TextField>
               <TextField
                 label="Days Available (1-7)"
@@ -166,7 +280,12 @@ function App() {
                 {schedule.map((day, index) => (
                   <Card key={index} sx={{ mb: 2 }}>
                     <CardContent>
-                      <Typography variant="body1" style={{ whiteSpace: 'pre-line' }}>{day}</Typography>
+                      <Typography variant="h6">{day.day}</Typography>
+                      {day.exercises.map((exercise, idx) => (
+                        <Typography key={idx} variant="body1">
+                          {exercise.name} - {exercise.sets} sets, {exercise.reps} reps
+                        </Typography>
+                      ))}
                     </CardContent>
                   </Card>
                 ))}

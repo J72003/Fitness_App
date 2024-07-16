@@ -1,10 +1,10 @@
-/* General Styles */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f0f2f5;
+  background-color: #352F44;
+  background-image: url("https://www.transparenttextures.com/patterns/bright-squares.png");
 }
 
 .App {
@@ -40,10 +40,11 @@ body {
   animation: slideIn 0.5s;
   position: relative;
   overflow: hidden;
+  background-color: #5C5470;
 }
 
 .home-banner .overlay {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(92, 84, 112, 0.5);
   padding: 20px;
   border-radius: 8px;
 }
@@ -65,10 +66,11 @@ body {
   margin: 10px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #B9B4C7;
 }
 
 .feature-card .overlay {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(185, 180, 199, 0.5);
   padding: 20px;
   border-radius: 8px;
 }
@@ -79,7 +81,7 @@ body {
 
 /* Form Container */
 .form-container {
-  background-color: #fff;
+  background-color: #FAF0E6;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
@@ -112,7 +114,7 @@ body {
 /* Buttons */
 button {
   padding: 10px;
-  background-color: #007bff;
+  background-color: #352F44;
   color: white;
   border: none;
   border-radius: 4px;
@@ -121,7 +123,7 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #5C5470;
 }
 
 /* Error and Recommendation */
@@ -155,7 +157,7 @@ button:hover {
 
 /* Footer */
 .footer {
-  background-color: #333;
+  background-color: #352F44;
   color: white;
   text-align: center;
   padding: 20px;
@@ -177,5 +179,5 @@ button:hover {
 }
 
 .social-media-links a:hover {
-  color: #007bff;
+  color: #B9B4C7;
 }
