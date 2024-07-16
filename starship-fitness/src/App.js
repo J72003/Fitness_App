@@ -48,7 +48,7 @@ function App() {
           { day: 'Day 2', exercises: [{ name: 'Overhead Press', sets: 3, reps: 10 }, { name: 'Barbell Row', sets: 3, reps: 12 }, { name: 'Bicep Curls', sets: 3, reps: 15 }] },
           { day: 'Day 3', exercises: [{ name: 'Lunges', sets: 3, reps: 12 }, { name: 'Tricep Dips', sets: 3, reps: 15 }, { name: 'Leg Press', sets: 3, reps: 10 }] },
           { day: 'Day 4', exercises: [{ name: 'Squats', sets: 3, reps: 12 }, { name: 'Bench Press', sets: 3, reps: 10 }, { name: 'Deadlift', sets: 3, reps: 8 }] },
-          { day: 'Day 5', exercises: [{ name: 'Overhead Press', sets: 3, reps: 10 }, { name: 'Barbell Row', sets: 3, reps: 12 }, { name: 'Bicep Curls', sets: 3, reps: 15 }] },
+          { day: 'Day 5', exercises: [{ name: 'OverheaD Press', sets: 3, reps: 10 }, { name: 'Barbell Row', sets: 3, reps: 12 }, { name: 'Bicep Curls', sets: 3, reps: 15 }] },
           { day: 'Day 6', exercises: [{ name: 'Lunges', sets: 3, reps: 12 }, { name: 'Tricep Dips', sets: 3, reps: 15 }, { name: 'Leg Press', sets: 3, reps: 10 }] },
           { day: 'Day 7', exercises: [{ name: 'Rest' }] }, // Rest day
         ],
