@@ -2,22 +2,56 @@ import React, { useState } from 'react';
 import { AppBar, Tabs, Tab, Container, TextField, MenuItem, Button, Box, Typography, Toolbar, Card, CardContent } from '@mui/material';
 import { FitnessCenter, DirectionsRun } from '@mui/icons-material';
 import './App.css';
-import Footer from './Footer'; // Import the Footer component
+import Footer from './Footer';
 import Gym from './Gym.jpg';
 import Feature1 from './feature-1.jpg';
 import Feature2 from './feature-2.jpg';
 import Feature3 from './feature-3.jpg';
 import axios from 'axios';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { auth } from './firebase';
+
+const tabsData = [
+  {
+    id: 0,
+    label: 'Weight-Training',
+    image:Gym,
+    content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos accusantium itaque amet ducimus, magni iure a repudiandae molestias nemo voluptatibus voluptas earum excepturi architecto, iusto necessitatibus sequi perferendis veritatis! Voluptatem?',
+  },
+  {
+    id: 1,
+    label: 'Body-Weight',
+    image:Feature1,
+    content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos accusantium itaque amet ducimus, magni iure a repudiandae molestias nemo voluptatibus voluptas earum excepturi architecto, iusto necessitatibus sequi perferendis veritatis! Voluptatem?',
+  },
+  {
+    id: 2,
+    label: 'Cardio',
+    image:Feature2,
+    content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos accusantium itaque amet ducimus, magni iure a repudiandae molestias nemo voluptatibus voluptas earum excepturi architecto, iusto necessitatibus sequi perferendis veritatis! Voluptatem?',
+  },
+  {
+    id: 3,
+    label: 'Schedule Builder',
+    image:Feature3,
+    content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos accusantium itaque amet ducimus, magni iure a repudiandae molestias nemo voluptatibus voluptas earum excepturi architecto, iusto necessitatibus sequi perferendis veritatis! Voluptatem?',
+  },
+];
 
 function App() {
-  const [currentTab, setCurrentTab] = useState('home');
+  const [currentTab, setCurrentTab] = useState(0);
   const [formData, setFormData] = useState({
     age: '',
     fitnessLevel: '',
     goal: '',
     daysAvailable: '',
+    email: '',
+    password: '',
   });
   const [schedule, setSchedule] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
+  const [loginError, setLoginError] = useState('');
 
   const handleChangeTab = (event, newValue) => {
     setCurrentTab(newValue);
@@ -27,8 +61,58 @@ function App() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleSignUp = async (email, password) => {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      setIsLoggedIn(true);
+      setUser(auth.currentUser);
+      setLoginError('');
+    } catch (error) {
+      console.error('Error signing up:', error);
+      setLoginError('Sign-up failed. Please try again.');
+    }
+  };
+
+  const handleLogin = async (email, password) => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      setIsLoggedIn(true);
+      setUser(auth.currentUser);
+      setLoginError('');
+    } catch (error) {
+      setLoginError('Invalid credentials');
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setIsLoggedIn(false);
+      setUser(null);
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { age, fitnessLevel, goal, daysAvailable } = formData;
+
+    try {
+      const response = await axios.post('/api/recommendation', {
+        fitnessLevel,
+        workoutType: goal,
+      });
+
+      const recommendation = response.data;
+      const newSchedule = generateDetailedWorkoutSchedule(age, fitnessLevel, goal, daysAvailable);
+      setSchedule(newSchedule.detailedWorkoutSchedule);
+    } catch (error) {
+      console.error('Error fetching recommendation:', error);
+    }
+  };
+
   const generateDetailedWorkoutSchedule = (age, experienceLevel, workoutType, workoutDays) => {
-    // Define age categories
     const ageCategories = [
       { min: 18, max: 29 },
       { min: 30, max: 39 },
@@ -41,7 +125,6 @@ function App() {
       { min: 100, max: 110 },
     ];
 
-    // Define detailed workout plans
     const workoutPlans = {
       beginner: {
         weight: [
@@ -132,13 +215,10 @@ function App() {
       },
     };
 
-    // Determine age category
     const ageCategory = ageCategories.find(category => age >= category.min && age <= category.max);
 
-    // Get workout plan based on experience level and workout type
     const workoutPlan = workoutPlans[experienceLevel][workoutType];
 
-    // Generate detailed workout schedule
     let detailedWorkoutSchedule = [];
     for (let i = 0; i < workoutDays; i++) {
       detailedWorkoutSchedule.push(workoutPlan[i % workoutPlan.length]);
@@ -153,80 +233,49 @@ function App() {
     };
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const { age, fitnessLevel, goal, daysAvailable } = formData;
-
-    try {
-      const response = await axios.post('/api/recommendation', {
-        fitnessLevel,
-        workoutType: goal,
-      });
-
-      const recommendation = response.data;
-      const newSchedule = generateDetailedWorkoutSchedule(age, fitnessLevel, goal, daysAvailable);
-      setSchedule(newSchedule.detailedWorkoutSchedule);
-      // Optionally, you can set the recommendation in the state to display it to the user
-      // setRecommendation(recommendation);
-    } catch (error) {
-      console.error('Error fetching recommendation:', error);
-      // Optionally, handle the error and display a message to the user
-      // setError('Failed to get recommendation');
-    }
-  };
-
   return (
     <div className="App">
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
-          <Toolbar>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Starship Fitness
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <Box className="tabs-container">
-          <Tabs value={currentTab} onChange={handleChangeTab} aria-label="nav tabs" centered>
-            <Tab label="Home" value="home" />
-            <Tab label="Form" value="form" />
-            <Tab label="About" value="about" />
-          </Tabs>
-        </Box>
-      </Box>
+      <header>
+        <h1>Starship Fitness</h1>
+        <nav>
+          {isLoggedIn ? (
+            <button onClick={handleLogout}>Logout</button>
+          ) : (
+            <>
+              <button onClick={() => setCurrentTab('login')}>Login</button>
+              <button onClick={() => setCurrentTab('signup')}>Sign Up</button>
+            </>
+          )}
+        </nav>
+      </header>
+      <ul className="tabs">
+        {tabsData.map((tab) => (
+          <li
+            key={tab.id}
+            className={currentTab === tab.id ? 'active' : ''}
+            data-id={tab.id}
+            onClick={() => setCurrentTab(tab.id)}
+          >
+            {tab.label}
+          </li>
+        ))}
+      </ul>
+      <div className="contents">
+        {tabsData.map((tab) => (
+          <div
+            key={tab.id}
+            className={`box ${currentTab === tab.id ? 'show' : 'hide'}`}
+            data-content={tab.id}
+          >
+            <img src={tab.image} alt={tab.label} />
+            <div>
+              <h3>Lorem ipsum dolor</h3>
+              <p>{tab.content}</p>
+            </div>
+          </div>
+        ))}
+      </div>
       <Container>
-        {currentTab === 'home' && (
-          <Box className="tab-content">
-            <Box className="home-banner" sx={{ my: 4, p: 4, textAlign: 'center', borderRadius: 2, background: 'linear-gradient(135deg, #ff6f61, #ffcc5c)', color: 'white' }}>
-              <Typography variant="h2" gutterBottom>Welcome to Starship Fitness</Typography>
-              <Typography variant="h6" gutterBottom>Embark on your fitness journey with us!</Typography>
-              <Button
-                variant="contained"
-                color="secondary"
-                size="large"
-                sx={{ mt: 2 }}
-                onClick={() => setCurrentTab('form')}
-              >
-                Get Started
-              </Button>
-            </Box>
-            <Box className="home-features" sx={{ display: 'flex', justifyContent: 'space-around', mt: 4, flexWrap: 'wrap' }}>
-              {[
-                { image: Gym, icon: <FitnessCenter fontSize="large" />, title: "Strength Training", description: "Customized plans for building muscle and gaining strength." },
-                { image: Feature1, icon: <DirectionsRun fontSize="large" />, title: "Cardio Workouts", description: "High-intensity and steady-state cardio routines for fat loss." },
-                { image: Feature2, title: "BodyWeight Exercises", description: "Beginner Friendly for maintaining and growing muscle." }
-              ].map((feature, index) => (
-                <Card key={index} sx={{ maxWidth: 345, boxShadow: 3, transition: 'transform 0.2s', '&:hover': { transform: 'scale(1.05)' }, m: 2 }}>
-                  <CardContent>
-                    <img src={feature.image} alt={feature.title} className="feature-image" />
-                    {feature.icon}
-                    <Typography variant="h5" component="div" sx={{ mt: 2 }}>{feature.title}</Typography>
-                    <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>{feature.description}</Typography>
-                  </CardContent>
-                </Card>
-              ))}
-            </Box>
-          </Box>
-        )}
         {currentTab === 'form' && (
           <Box className="tab-content form-container">
             <Typography variant="h4" gutterBottom>Fitness Form</Typography>
@@ -309,14 +358,86 @@ function App() {
             )}
           </Box>
         )}
-        {currentTab === 'about' && (
-          <Box className="tab-content">
-            <Typography variant="h4" gutterBottom>About Starship Fitness</Typography>
-            <Typography>Learn more about our mission and values.</Typography>
+        {currentTab === 'login' && (
+          <Box className="tab-content form-container">
+            <Typography variant="h4" gutterBottom>Login</Typography>
+            {loginError && <Typography color="error">{loginError}</Typography>}
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              handleLogin(formData.email, formData.password);
+            }}>
+              <TextField
+                label="Email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+                variant="outlined"
+              />
+              <TextField
+                label="Password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                type="password"
+                fullWidth
+                margin="normal"
+                variant="outlined"
+              />
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                fullWidth
+                sx={{ mt: 2 }}
+              >
+                Login
+              </Button>
+            </form>
+          </Box>
+        )}
+        {currentTab === 'signup' && (
+          <Box className="tab-content form-container">
+            <Typography variant="h4" gutterBottom>Sign Up</Typography>
+            {loginError && <Typography color="error">{loginError}</Typography>}
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              handleSignUp(formData.email, formData.password);
+            }}>
+              <TextField
+                label="Email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+                variant="outlined"
+              />
+              <TextField
+                label="Password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                type="password"
+                fullWidth
+                margin="normal"
+                variant="outlined"
+              />
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                fullWidth
+                sx={{ mt: 2 }}
+              >
+                Sign Up
+              </Button>
+            </form>
           </Box>
         )}
       </Container>
-      <Footer /> {/* Include the Footer component here */}
+      <Footer />
     </div>
   );
 }
