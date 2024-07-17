@@ -7,6 +7,7 @@ import Gym from './Gym.jpg';
 import Feature1 from './feature-1.jpg';
 import Feature2 from './feature-2.jpg';
 import Feature3 from './feature-3.jpg';
+import axios from 'axios';
 
 function App() {
   const [currentTab, setCurrentTab] = useState('home');
@@ -152,11 +153,26 @@ function App() {
     };
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const { age, fitnessLevel, goal, daysAvailable } = formData;
-    const newSchedule = generateDetailedWorkoutSchedule(age, fitnessLevel, goal, daysAvailable);
-    setSchedule(newSchedule.detailedWorkoutSchedule);
+
+    try {
+      const response = await axios.post('/api/recommendation', {
+        fitnessLevel,
+        workoutType: goal,
+      });
+
+      const recommendation = response.data;
+      const newSchedule = generateDetailedWorkoutSchedule(age, fitnessLevel, goal, daysAvailable);
+      setSchedule(newSchedule.detailedWorkoutSchedule);
+      // Optionally, you can set the recommendation in the state to display it to the user
+      // setRecommendation(recommendation);
+    } catch (error) {
+      console.error('Error fetching recommendation:', error);
+      // Optionally, handle the error and display a message to the user
+      // setError('Failed to get recommendation');
+    }
   };
 
   return (
