@@ -1,5 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 
+:root {
+  --primary-color: #352F44; /* Dark purple */
+  --secondary-color: #5C5470; /* Medium purple */
+  --accent-color: #f9004d; /* Bright pink */
+  --text-color: #c4cfde; /* Light gray */
+  --background-color: #212428; /* Dark gray */
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -7,8 +15,9 @@
 }
 
 body {
-  background-color: #212428;
+  background-color: var(--background-color);
   overflow-x: clip;
+  font-family: 'Poppins', sans-serif;
 }
 
 ul {
@@ -25,33 +34,24 @@ ul {
   box-shadow: 10px 10px 19px #1c1e22, -10px -10px 19px #262a2e;
   overflow: hidden;
   border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
 }
 
 .tabs li {
-  background-color: #212327;
+  background-color: var(--secondary-color);
   width: 25%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #c4cfde;
-  font-family: 'Poppins', sans-serif;
+  color: var(--text-color);
   transition: .5s;
-  -webkit-transition: .5s;
-  -moz-transition: .5s;
-  -ms-transition: .5s;
-  -o-transition: .5s;
   cursor: pointer;
 }
 
 .tabs li:hover {
   background: linear-gradient(145deg, #1e2024, #23272b);
   box-shadow: 10px 10px 19px #1c1e22, -10px -10px 19px #262a2e;
-  color: #f9004d;
+  color: var(--accent-color);
   position: relative;
   z-index: 1;
   border-radius: 10px;
@@ -60,7 +60,7 @@ ul {
 .active {
   background: linear-gradient(145deg, #1e2024, #23272b);
   box-shadow: 10px 10px 19px #1c1e22, -10px -10px 19px #262a2e;
-  color: #f9004d !important;
+  color: var(--accent-color) !important;
   position: relative;
   z-index: 1;
   border-radius: 10px;
@@ -81,36 +81,27 @@ ul {
   background: linear-gradient(145deg, #1e2024, #23272b);
   box-shadow: 10px 10px 19px #1c1e22, -10px -10px 19px #262a2e;
   border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
   padding: 20px;
   width: 100%;
   animation: moving 1s ease;
-  -webkit-animation: moving 1s ease;
 }
 
 .box img {
-  width: 50%;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
   border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
 }
 
 .box h3 {
-  color: #c4cfde;
-  font-family: 'Poppins', sans-serif;
+  color: var(--text-color);
   font-size: 2rem;
   margin-bottom: 20px;
 }
 
 .box p {
-  color: #c4cfde;
+  color: var(--text-color);
   opacity: .5;
-  font-family: 'Poppins', sans-serif;
   font-size: 1rem;
 }
 
@@ -125,30 +116,12 @@ ul {
 @keyframes moving {
   from {
     transform: translateX(-50px);
-    -webkit-transform: translateX(-50px);
-    -moz-transform: translateX(-50px);
-    -ms-transform: translateX(-50px);
-    -o-transform: translateX(-50px);
     opacity: 0;
   }
-
   to {
     transform: translateX(0px);
-    -webkit-transform: translateX(0px);
-    -moz-transform: translateX(0px);
-    -ms-transform: translateX(0px);
-    -o-transform: translateX(0px);
     opacity: 1;
   }
-}
-
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: #352F44;
-  background-image: url("https://www.transparenttextures.com/patterns/bright-squares.png");
 }
 
 .App {
@@ -161,7 +134,7 @@ body {
 
 /* Header */
 header {
-  background-color: #5C5470;
+  background-color: var(--secondary-color);
   color: white;
   padding: 20px;
   display: flex;
@@ -174,7 +147,6 @@ header {
 header h1 {
   font-size: 2rem;
   margin: 0;
-  font-family: 'Poppins', sans-serif;
 }
 
 header nav {
@@ -189,11 +161,10 @@ header nav button {
   font-size: 1rem;
   cursor: pointer;
   transition: color 0.3s ease;
-  font-family: 'Poppins', sans-serif;
 }
 
 header nav button:hover {
-  color: #ffcc5c;
+  color: var(--accent-color);
 }
 
 /* Tabs */
@@ -204,7 +175,7 @@ header nav button:hover {
 }
 
 .MuiTabs-indicator {
-  background-color: #ffcc5c;
+  background-color: var(--accent-color);
 }
 
 .MuiTab-root {
@@ -213,11 +184,11 @@ header nav button:hover {
 }
 
 .MuiTab-root.Mui-selected {
-  color: #ffcc5c;
+  color: var(--accent-color);
 }
 
 .MuiTab-root:hover {
-  color: #ffcc5c;
+  color: var (--accent-color);
 }
 
 /* Tab Content */
@@ -238,7 +209,7 @@ header nav button:hover {
   animation: slideIn 0.5s;
   position: relative;
   overflow: hidden;
-  background-color: #5C5470;
+  background-color: var(--secondary-color);
 }
 
 .home-banner .overlay {
@@ -264,7 +235,7 @@ header nav button:hover {
   margin: 10px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background-color: #B9B4C7;
+  background-color: var(--secondary-color);
 }
 
 .feature-card .overlay {
@@ -289,8 +260,7 @@ header nav button:hover {
 }
 
 .form-container h2 {
-  color: #c4cfde;
-  font-family: 'Poppins', sans-serif;
+  color: var(--text-color);
   margin-bottom: 20px;
 }
 
@@ -300,13 +270,12 @@ header nav button:hover {
   margin-bottom: 20px;
   border: none;
   border-radius: 4px;
-  font-family: 'Poppins', sans-serif;
 }
 
 .form-container button {
   padding: 10px;
   width: 100%;
-  background-color: #f9004d;
+  background-color: var(--accent-color);
   color: white;
   border: none;
   border-radius: 4px;
@@ -347,7 +316,7 @@ header nav button:hover {
 /* Buttons */
 button {
   padding: 10px;
-  background-color: #352F44;
+  background-color: var(--primary-color);
   color: white;
   border: none;
   border-radius: 4px;
@@ -356,7 +325,7 @@ button {
 }
 
 button:hover {
-  background-color: #5C5470;
+  background-color: var(--secondary-color);
 }
 
 /* Error and Recommendation */
@@ -390,7 +359,7 @@ button:hover {
 
 /* Footer */
 .footer {
-  background-color: #352F44;
+  background-color: var(--primary-color);
   color: white;
   text-align: center;
   padding: 20px;
@@ -412,5 +381,63 @@ button:hover {
 }
 
 .social-media-links a:hover {
-  color: #b9b4c7;
+  color: var(--accent-color);
+}
+
+/* Ensure the dialog is centered and styled as desired */
+.MuiDialog-paper {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border-radius: 10px;
+  box-shadow: 10px 10px 19px #1c1e22, -10px -10px 19px #262a2e;
+  max-width: 90%;
+  width: 600px; /* Adjust as needed */
+}
+
+.MuiDialogTitle-root {
+  background-color: var(--secondary-color);
+  color: var(--accent-color);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.MuiDialogContent-root {
+  padding: 20px;
+}
+
+.MuiDialogActions-root {
+  justify-content: flex-end;
+  padding: 10px 20px;
+  background-color: var(--secondary-color);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.MuiButton-textPrimary {
+  color: var(--accent-color);
+}
+
+.MuiButton-textPrimary:hover {
+  background-color: rgba(249, 0, 77, 0.08);
+}
+
+/* Additional styles for the dialog content */
+.MuiCard-root {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px #1c1e22, -5px -5px 10px #262a2e;
+  margin-bottom: 20px;
+}
+
+.MuiCardContent-root {
+  padding: 20px;
+}
+
+.MuiTypography-h6 {
+  color: var(--accent-color);
+}
+
+.MuiTypography-body1 {
+  color: var(--text-color);
 }
