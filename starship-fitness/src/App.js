@@ -460,7 +460,9 @@ function App() {
       </Container>
       {schedule.length > 0 && (
         <div className="schedule-container">
-          <Typography variant="h4" gutterBottom>Your Workout Schedule</Typography>
+          <Typography variant="h4" gutterBottom style={{ color: 'var(--form-text-color)' }}>
+            Your Workout Schedule
+          </Typography>
           {schedule.map((day, index) => (
             <Card key={index} sx={{ mb: 2 }}>
               <CardContent>

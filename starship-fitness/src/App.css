@@ -303,10 +303,36 @@ header nav button:hover {
 /* Schedule Container */
 .schedule-container {
   background-color: var(--background-color); /* Dark background */
+  color: var(--text-color); /* Light text */
   padding: 20px;
   border-radius: 8px;
   margin-top: 20px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
+
+.schedule-container .MuiCard-root {
+  background-color: var(--secondary-color); /* Darker background for cards */
+}
+
+.schedule-container .MuiCardContent-root {
+  color: var(--text-color); /* Light text color for card content */
+}
+
+.schedule-container .MuiTypography-h6 {
+  color: var(--accent-color); /* Bright pink for day titles */
+}
+
+.schedule-container .MuiTypography-body1 {
+  color: var(--form-text-color); /* Light gray for exercises */
+}
+
+/* Updated color for the heading */
+.schedule-container h4 {
+  color: var(--accent-color); /* Bright pink for the schedule heading */
+}
+
 
 /* Animations */
 @keyframes fadeIn {
@@ -411,8 +437,8 @@ button:hover {
 }
 
 .MuiDialogTitle-root {
-  background-color: var (--secondary-color);
-  color: var (--accent-color);
+  background-color: var(--secondary-color);
+  color: var(--accent-color);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
@@ -424,13 +450,13 @@ button:hover {
 .MuiDialogActions-root {
   justify-content: flex-end;
   padding: 10px 20px;
-  background-color: var (--secondary-color);
+  background-color: var(--secondary-color);
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
 
 .MuiButton-textPrimary {
-  color: var (--accent-color);
+  color: var(--accent-color);
 }
 
 .MuiButton-textPrimary:hover {
@@ -439,8 +465,8 @@ button:hover {
 
 /* Additional styles for the dialog content */
 .MuiCard-root {
-  background-color: var (--secondary-color);
-  color: var (--text-color);
+  background-color: var(--secondary-color);
+  color: var(--text-color);
   border-radius: 10px;
   box-shadow: 5px 5px 10px #1c1e22, -5px -5px 10px #262a2e;
   margin-bottom: 20px;
@@ -451,9 +477,9 @@ button:hover {
 }
 
 .MuiTypography-h6 {
-  color: var (--accent-color);
+  color: var(--accent-color);
 }
 
 .MuiTypography-body1 {
-  color: var (--text-color);
+  color: var(--text-color);
 }
