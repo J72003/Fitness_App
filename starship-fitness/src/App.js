@@ -14,7 +14,7 @@ const tabsData = [
     id: 0,
     label: 'Weight-Training',
     image: Gym,
-    content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos accusantium itaque amet ducimus, magni iure a repudiandae molestias nemo voluptatibus voluptas earum excepturi architecto, iusto necessitatibus sequi perferendis veritatis! Voluptatem?',
+    content: 'Build up those muscles! Strengthen bones, improve balance and prevent injuries. This type of strength training can be done with free weights or weight machines.,',
   },
   {
     id: 1,
@@ -26,7 +26,7 @@ const tabsData = [
     id: 2,
     label: 'Cardio',
     image: Feature2,
-    content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos accusantium itaque amet ducimus, magni iure a repudiandae molestias nemo voluptatibus voluptas earum excepturi architecto, iusto necessitatibus sequi perferendis veritatis! Voluptatem?',
+    content: 'Raise your heart rate! Most calories are burnt while preforming any rythmic activity that raises your heart rate. When the heart rate reaches the target heart rate zone, which is  70%-80% of your max heart rate, you will burn the most calories and fat.',
   },
   {
     id: 3,
