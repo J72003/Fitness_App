@@ -6,6 +6,8 @@
   --accent-color: #f9004d; /* Bright pink */
   --text-color: #c4cfde; /* Light gray */
   --background-color: #212428; /* Dark gray */
+  --form-background-color: #FFFFFF; /* White */
+  --form-text-color: #000000; /* Black */
 }
 
 * {
@@ -250,7 +252,8 @@ header nav button:hover {
 
 /* Form Container */
 .form-container {
-  background-color: #FAF0E6;
+  background-color: var(--form-background-color); /* White background */
+  color: var(--form-text-color); /* Black text */
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
@@ -260,16 +263,21 @@ header nav button:hover {
 }
 
 .form-container h2 {
-  color: var(--text-color);
+  color: var(--form-text-color); /* Black heading */
   margin-bottom: 20px;
 }
 
-.form-container input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  border: none;
-  border-radius: 4px;
+.form-container input,
+.form-container select,
+.form-container .MuiInputBase-root {
+  background-color: var(--form-background-color); /* White input background */
+  color: var(--form-text-color); /* Black input text */
+  border: 1px solid var(--form-text-color); /* Black border */
+}
+
+.form-container input::placeholder,
+.form-container .MuiInputBase-input::placeholder {
+  color: var(--form-text-color); /* Black placeholder text */
 }
 
 .form-container button {
@@ -290,6 +298,14 @@ header nav button:hover {
 .form-container .error {
   color: red;
   margin-bottom: 20px;
+}
+
+/* Schedule Container */
+.schedule-container {
+  background-color: var(--background-color); /* Dark background */
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
 }
 
 /* Animations */
@@ -395,8 +411,8 @@ button:hover {
 }
 
 .MuiDialogTitle-root {
-  background-color: var(--secondary-color);
-  color: var(--accent-color);
+  background-color: var (--secondary-color);
+  color: var (--accent-color);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
@@ -408,13 +424,13 @@ button:hover {
 .MuiDialogActions-root {
   justify-content: flex-end;
   padding: 10px 20px;
-  background-color: var(--secondary-color);
+  background-color: var (--secondary-color);
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
 
 .MuiButton-textPrimary {
-  color: var(--accent-color);
+  color: var (--accent-color);
 }
 
 .MuiButton-textPrimary:hover {
@@ -423,8 +439,8 @@ button:hover {
 
 /* Additional styles for the dialog content */
 .MuiCard-root {
-  background-color: var(--secondary-color);
-  color: var(--text-color);
+  background-color: var (--secondary-color);
+  color: var (--text-color);
   border-radius: 10px;
   box-shadow: 5px 5px 10px #1c1e22, -5px -5px 10px #262a2e;
   margin-bottom: 20px;
@@ -435,9 +451,9 @@ button:hover {
 }
 
 .MuiTypography-h6 {
-  color: var(--accent-color);
+  color: var (--accent-color);
 }
 
 .MuiTypography-body1 {
-  color: var(--text-color);
+  color: var (--text-color);
 }

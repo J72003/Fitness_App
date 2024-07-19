@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
-import { AppBar, Tabs, Tab, Container, TextField, MenuItem, Button, Box, Typography, Card, CardContent, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { AppBar, Tabs, Tab, Container, TextField, MenuItem, Button, Box, Typography, Card, CardContent } from '@mui/material';
 import './App.css';
 import Footer from './Footer';
 import Gym from './Gym.jpg';
 import Feature1 from './feature-1.jpg';
 import Feature2 from './feature-2.jpg';
 import Feature3 from './feature-3.jpg';
-import axios from 'axios';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
 
 const tabsData = [
@@ -174,6 +173,19 @@ function App() {
   const [loginError, setLoginError] = useState('');
   const [showScheduleDialog, setShowScheduleDialog] = useState(false);
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsLoggedIn(true);
+        setUser(user);
+      } else {
+        setIsLoggedIn(false);
+        setUser(null);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
   const handleChangeTab = (event, newValue) => {
     setCurrentTab(newValue);
   };
@@ -220,17 +232,11 @@ function App() {
     const { age, fitnessLevel, goal, daysAvailable } = formData;
 
     try {
-      const response = await axios.post('/api/recommendation', {
-        fitnessLevel,
-        workoutType: goal,
-      });
-
-      const recommendation = response.data;
       const newSchedule = generateDetailedWorkoutSchedule(age, fitnessLevel, goal, daysAvailable);
       setSchedule(newSchedule.detailedWorkoutSchedule);
       setShowScheduleDialog(true); // Show the dialog after generating the schedule
     } catch (error) {
-      console.error('Error fetching recommendation:', error);
+      console.error('Error generating schedule:', error);
     }
   };
 
@@ -285,6 +291,12 @@ function App() {
                     margin="normal"
                     variant="outlined"
                     type="number"
+                    InputLabelProps={{
+                      style: { color: 'var(--form-text-color)' }, // Update label color
+                    }}
+                    InputProps={{
+                      style: { color: 'var(--form-text-color)' }, // Update input text color
+                    }}
                   />
                   <TextField
                     select
@@ -295,6 +307,12 @@ function App() {
                     fullWidth
                     margin="normal"
                     variant="outlined"
+                    InputLabelProps={{
+                      style: { color: 'var(--form-text-color)' }, // Update label color
+                    }}
+                    InputProps={{
+                      style: { color: 'var(--form-text-color)' }, // Update input text color
+                    }}
                   >
                     <MenuItem value="beginner">Beginner</MenuItem>
                     <MenuItem value="intermediate">Intermediate</MenuItem>
@@ -309,6 +327,12 @@ function App() {
                     fullWidth
                     margin="normal"
                     variant="outlined"
+                    InputLabelProps={{
+                      style: { color: 'var(--form-text-color)' }, // Update label color
+                    }}
+                    InputProps={{
+                      style: { color: 'var(--form-text-color)' }, // Update input text color
+                    }}
                   >
                     <MenuItem value="weight">Weight Training</MenuItem>
                     <MenuItem value="cardio">Cardio</MenuItem>
@@ -324,6 +348,12 @@ function App() {
                     variant="outlined"
                     type="number"
                     inputProps={{ min: 1, max: 7 }}
+                    InputLabelProps={{
+                      style: { color: 'var(--form-text-color)' }, // Update label color
+                    }}
+                    InputProps={{
+                      style: { color: 'var(--form-text-color)' }, // Update input text color
+                    }}
                   />
                   <Button
                     type="submit"
@@ -428,17 +458,13 @@ function App() {
           </Box>
         )}
       </Container>
-      <Dialog
-        open={showScheduleDialog}
-        onClose={handleCloseDialog}
-        aria-labelledby="workout-schedule-dialog"
-      >
-        <DialogTitle id="workout-schedule-dialog">Your Workout Schedule</DialogTitle>
-        <DialogContent>
+      {schedule.length > 0 && (
+        <div className="schedule-container">
+          <Typography variant="h4" gutterBottom>Your Workout Schedule</Typography>
           {schedule.map((day, index) => (
             <Card key={index} sx={{ mb: 2 }}>
               <CardContent>
-                <Typography variant="h6">{day.day}</Typography>
+                <Typography variant="h6" color="var(--accent-color)">{day.day}</Typography>
                 {day.exercises.map((exercise, idx) => (
                   <Typography key={idx} variant="body1">
                     {exercise.name} - {exercise.sets ? `${exercise.sets} sets, ${exercise.reps} reps` : `${exercise.duration}`}
@@ -447,13 +473,8 @@ function App() {
               </CardContent>
             </Card>
           ))}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog} color="primary">
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
+        </div>
+      )}
       <Footer />
     </div>
   );
