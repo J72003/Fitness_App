@@ -408,6 +408,7 @@ button:hover {
   position: relative;
   bottom: 0;
   width: 100%;
+  margin-top: 40px; /* Add margin to create space between the content and footer */
 }
 
 .social-media-links {
@@ -424,6 +425,24 @@ button:hover {
 
 .social-media-links a:hover {
   color: var(--accent-color);
+}
+
+/* Style the content section */
+.contents {
+  width: 80%;
+  margin: 50px auto; /* Add margin for spacing */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Center the content */
+  gap: 30px;
+}
+
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .box {
+    width: 100%; /* Stack boxes vertically on small screens */
+  }
 }
 
 /* Ensure the dialog is centered and styled as desired */
@@ -500,7 +519,7 @@ button:hover {
 .landing-page h4 {
   margin-bottom: 20px;
   font-size: 2rem;
-  color: white;
+  color: var(--accent-color);
 }
 
 .landing-page form {
