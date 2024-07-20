@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AppBar, Tabs, Tab, Container, TextField, MenuItem, Button, Box, Typography, Card, CardContent } from '@mui/material';
+import { Container, TextField, MenuItem, Button, Box, Typography, Card, CardContent } from '@mui/material';
 import './App.css';
 import Footer from './Footer';
 import Gym from './Gym.jpg';
@@ -8,6 +8,7 @@ import Feature2 from './feature-2.jpg';
 import Feature3 from './feature-3.jpg';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
+import LandingPage from './LandingPage';
 
 const tabsData = [
   {
@@ -244,6 +245,10 @@ function App() {
     setShowScheduleDialog(false);
   };
 
+  if (!isLoggedIn) {
+    return <LandingPage onLogin={() => setIsLoggedIn(true)} />;
+  }
+
   return (
     <div className="App">
       <header>
@@ -365,6 +370,25 @@ function App() {
                     Generate Schedule
                   </Button>
                 </form>
+                {schedule.length > 0 && (
+                  <div className="schedule-container">
+                    <Typography variant="h4" gutterBottom style={{ color: 'var(--accent-color)' }}>
+                      Your Workout Schedule
+                    </Typography>
+                    {schedule.map((day, index) => (
+                      <Card key={index} sx={{ mb: 2 }}>
+                        <CardContent>
+                          <Typography variant="h6" color="var(--accent-color)">{day.day}</Typography>
+                          {day.exercises.map((exercise, idx) => (
+                            <Typography key={idx} variant="body1">
+                              {exercise.name} - {exercise.sets ? `${exercise.sets} sets, ${exercise.reps} reps` : `${exercise.duration}`}
+                            </Typography>
+                          ))}
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
               </Box>
             ) : (
               <>
@@ -378,105 +402,6 @@ function App() {
           </div>
         ))}
       </div>
-      <Container>
-        {currentTab === 'login' && (
-          <Box className="tab-content form-container">
-            <Typography variant="h4" gutterBottom>Login</Typography>
-            {loginError && <Typography color="error">{loginError}</Typography>}
-            <form onSubmit={(e) => {
-              e.preventDefault();
-              handleLogin(formData.email, formData.password);
-            }}>
-              <TextField
-                label="Email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                fullWidth
-                margin="normal"
-                variant="outlined"
-              />
-              <TextField
-                label="Password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                type="password"
-                fullWidth
-                margin="normal"
-                variant="outlined"
-              />
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                fullWidth
-                sx={{ mt: 2 }}
-              >
-                Login
-              </Button>
-            </form>
-          </Box>
-        )}
-        {currentTab === 'signup' && (
-          <Box className="tab-content form-container">
-            <Typography variant="h4" gutterBottom>Sign Up</Typography>
-            {loginError && <Typography color="error">{loginError}</Typography>}
-            <form onSubmit={(e) => {
-              e.preventDefault();
-              handleSignUp(formData.email, formData.password);
-            }}>
-              <TextField
-                label="Email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                fullWidth
-                margin="normal"
-                variant="outlined"
-              />
-              <TextField
-                label="Password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                type="password"
-                fullWidth
-                margin="normal"
-                variant="outlined"
-              />
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                fullWidth
-                sx={{ mt: 2 }}
-              >
-                Sign Up
-              </Button>
-            </form>
-          </Box>
-        )}
-      </Container>
-      {schedule.length > 0 && (
-        <div className="schedule-container">
-          <Typography variant="h4" gutterBottom style={{ color: 'var(--form-text-color)' }}>
-            Your Workout Schedule
-          </Typography>
-          {schedule.map((day, index) => (
-            <Card key={index} sx={{ mb: 2 }}>
-              <CardContent>
-                <Typography variant="h6" color="var(--accent-color)">{day.day}</Typography>
-                {day.exercises.map((exercise, idx) => (
-                  <Typography key={idx} variant="body1">
-                    {exercise.name} - {exercise.sets ? `${exercise.sets} sets, ${exercise.reps} reps` : `${exercise.duration}`}
-                  </Typography>
-                ))}
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )}
       <Footer />
     </div>
   );

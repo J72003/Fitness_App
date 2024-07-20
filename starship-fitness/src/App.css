@@ -483,3 +483,26 @@ button:hover {
 .MuiTypography-body1 {
   color: var(--text-color);
 }
+
+
+.landing-page {
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+  background-color: var(--secondary-color);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.landing-page form {
+  display: flex;
+  flex-direction: column;
+}
+
+.landing-page .MuiTextField-root {
+  margin-bottom: 20px;
+}
+
+.landing-page .MuiButton-root {
+  margin-top: 10px;
+}
