@@ -485,13 +485,22 @@ button:hover {
 }
 
 
+/* Updated styles for the login form */
 .landing-page {
   max-width: 400px;
   margin: auto;
   padding: 20px;
   background-color: var(--secondary-color);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
+  text-align: center;
+  color: var(--text-color);
+}
+
+.landing-page h4 {
+  margin-bottom: 20px;
+  font-size: 2rem;
+  color: white;
 }
 
 .landing-page form {
@@ -503,6 +512,48 @@ button:hover {
   margin-bottom: 20px;
 }
 
+.landing-page .MuiTextField-root .MuiOutlinedInput-root {
+  background-color: var(--form-background-color);
+  border-radius: 5px;
+}
+
+.landing-page .MuiTextField-root .MuiInputLabel-root {
+  color: var(--form-text-color);
+}
+
+.landing-page .MuiTextField-root .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: var(--accent-color);
+}
+
 .landing-page .MuiButton-root {
   margin-top: 10px;
+  padding: 10px;
+  background: linear-gradient(145deg, var(--accent-color), var(--accent-color-dark));
+  color: white;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease;
+}
+
+.landing-page .MuiButton-root:hover {
+  background: var(--accent-color-dark);
+}
+
+.landing-page .MuiButton-root:active {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.landing-page .MuiTypography-colorError {
+  margin-bottom: 20px;
+  color: white; /* Change error color to white */
+}
+
+.landing-page .MuiButton-textSecondary {
+  margin-top: 10px;
+  color: var(--text-color);
+  text-decoration: underline;
+}
+
+.landing-page .MuiButton-textSecondary:hover {
+  color: var(--accent-color);
 }
