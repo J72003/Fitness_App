@@ -7,27 +7,28 @@ import Feature1 from './feature-1.jpg';
 import Feature2 from './feature-2.jpg';
 import Feature3 from './feature-3.jpg';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
-import { auth } from './firebase';
+import { auth, db } from './firebase';
+import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 import LandingPage from './LandingPage';
 
 const tabsData = [
   {
     id: 0,
-    label: 'Weight Training',
+    label: 'Weight-Training',
     image: Gym,
     content: 'Build up those muscles! Strengthen bones, improve balance and prevent injuries. This type of strength training can be done with free weights or weight machines.',
   },
   {
     id: 1,
-    label: 'Body Weight',
+    label: 'Body-Weight',
     image: Feature1,
-    content: 'Utilize your body weight to enhance your strength, flexibility, and endurance. Ideal for all fitness levels and can be done anywhere with minimal equipment.',
+    content: 'Enhance your strength, flexibility, and endurance with body-weight exercises. These workouts use your own body weight as resistance, requiring minimal equipment and offering great versatility.',
   },
   {
     id: 2,
     label: 'Cardio',
     image: Feature2,
-    content: 'Improve your cardiovascular health, burn calories, and increase your stamina with various cardio exercises. Perfect for maintaining a healthy heart and weight.',
+    content: 'Boost your heart health and burn calories with cardio exercises. Activities like running, cycling, and swimming can improve your cardiovascular fitness and help manage weight.',
   },
   {
     id: 3,
@@ -196,21 +197,29 @@ function App() {
     weight: '',
     goal: '',
   });
+  const [workoutLog, setWorkoutLog] = useState({
+    date: '',
+    workoutType: '',
+    calories: '',
+  });
   const [schedule, setSchedule] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [loginError, setLoginError] = useState('');
   const [showScheduleDialog, setShowScheduleDialog] = useState(false);
   const [bmiResult, setBmiResult] = useState(null);
+  const [workoutHistory, setWorkoutHistory] = useState([]);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setIsLoggedIn(true);
         setUser(user);
+        await fetchWorkoutHistory(user.uid); // Fetch workout history when user logs in
       } else {
         setIsLoggedIn(false);
         setUser(null);
+        setWorkoutHistory([]);
       }
     });
     return () => unsubscribe();
@@ -226,6 +235,10 @@ function App() {
 
   const handleBmiChange = (e) => {
     setBmiFormData({ ...bmiFormData, [e.target.name]: e.target.value });
+  };
+
+  const handleWorkoutLogChange = (e) => {
+    setWorkoutLog({ ...workoutLog, [e.target.name]: e.target.value });
   };
 
   const handleSignUp = async (email, password) => {
@@ -256,6 +269,7 @@ function App() {
       await signOut(auth);
       setIsLoggedIn(false);
       setUser(null);
+      setWorkoutHistory([]);
     } catch (error) {
       console.error('Error logging out:', error);
     }
@@ -285,6 +299,40 @@ function App() {
       bmi: bmi.toFixed(2),
       caloricIntake: caloricIntake.toFixed(0)
     });
+  };
+
+  const handleWorkoutLogSubmit = async (e) => {
+    e.preventDefault();
+    if (!user) {
+      console.error('No user is logged in');
+      return;
+    }
+
+    const { date, workoutType, calories } = workoutLog;
+
+    try {
+      await addDoc(collection(db, 'workoutLogs'), {
+        uid: user.uid,
+        date,
+        workoutType,
+        calories,
+      });
+      setWorkoutLog({ date: '', workoutType: '', calories: '' });
+      await fetchWorkoutHistory(user.uid); // Refresh workout history
+    } catch (error) {
+      console.error('Error logging workout:', error);
+    }
+  };
+
+  const fetchWorkoutHistory = async (uid) => {
+    try {
+      const q = query(collection(db, 'workoutLogs'), where('uid', '==', uid));
+      const querySnapshot = await getDocs(q);
+      const history = querySnapshot.docs.map(doc => doc.data());
+      setWorkoutHistory(history);
+    } catch (error) {
+      console.error('Error fetching workout history:', error);
+    }
   };
 
   const handleCloseDialog = () => {
@@ -513,14 +561,96 @@ function App() {
               <>
                 <img src={tab.image} alt={tab.label} className="feature-image" />
                 <div>
-                  <Typography variant="h3" style={{ color: 'var(--text-color)' }}>{tab.label}</Typography>
-                  <Typography variant="body1" style={{ color: 'var(--text-color)' }}>{tab.content}</Typography>
+                  <h3>{tab.label}</h3>
+                  <p>{tab.content}</p>
                 </div>
               </>
             )}
           </div>
         ))}
       </div>
+      <Box className="form-container" sx={{ mt: 4 }}>
+        <Typography variant="h4" gutterBottom>Log Your Workout</Typography>
+        <form onSubmit={handleWorkoutLogSubmit}>
+          <TextField
+            label="Date"
+            name="date"
+            value={workoutLog.date}
+            onChange={handleWorkoutLogChange}
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            type="date"
+            InputLabelProps={{
+              style: { color: 'var(--form-text-color)' }, // Update label color
+            }}
+            InputProps={{
+              style: { color: 'var(--form-text-color)' }, // Update input text color
+            }}
+          />
+          <TextField
+            select
+            label="Workout Type"
+            name="workoutType"
+            value={workoutLog.workoutType}
+            onChange={handleWorkoutLogChange}
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            InputLabelProps={{
+              style: { color: 'var(--form-text-color)' }, // Update label color
+            }}
+            InputProps={{
+              style: { color: 'var(--form-text-color)' }, // Update input text color
+            }}
+          >
+            <MenuItem value="Weight-Training">Weight-Training</MenuItem>
+            <MenuItem value="Body-Weight">Body-Weight</MenuItem>
+            <MenuItem value="Cardio">Cardio</MenuItem>
+          </TextField>
+          <TextField
+            label="Calories Consumed"
+            name="calories"
+            value={workoutLog.calories}
+            onChange={handleWorkoutLogChange}
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            type="number"
+            InputLabelProps={{
+              style: { color: 'var(--form-text-color)' }, // Update label color
+            }}
+            InputProps={{
+              style: { color: 'var(--form-text-color)' }, // Update input text color
+            }}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            sx={{ mt: 2 }}
+          >
+            Log Workout
+          </Button>
+        </form>
+      </Box>
+      {workoutHistory.length > 0 && (
+        <Box className="schedule-container" sx={{ mt: 4 }}>
+          <Typography variant="h4" gutterBottom style={{ color: 'var(--accent-color)' }}>
+            Workout History
+          </Typography>
+          {workoutHistory.map((log, index) => (
+            <Card key={index} sx={{ mb: 2 }}>
+              <CardContent>
+                <Typography variant="h6" color="var(--accent-color)">{log.date}</Typography>
+                <Typography variant="body1">Workout Type: {log.workoutType}</Typography>
+                <Typography variant="body1">Calories Consumed: {log.calories}</Typography>
+              </CardContent>
+            </Card>
+          ))}
+        </Box>
+      )}
       <Footer />
     </div>
   );
