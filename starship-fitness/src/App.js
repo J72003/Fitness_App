@@ -21,13 +21,13 @@ const tabsData = [
     id: 1,
     label: 'Body Weight',
     image: Feature1,
-    content: 'Body-weight exercises provide a comprehensive workout that leverages your own weight to build muscle, enhance endurance, and improve flexibility. These exercises can be performed anywhere and are excellent for developing functional strength and coordination. Perfect for beginners and advanced fitness enthusiasts alike.',
+    content: 'Utilize your body weight to enhance your strength, flexibility, and endurance. Ideal for all fitness levels and can be done anywhere with minimal equipment.',
   },
   {
     id: 2,
     label: 'Cardio',
     image: Feature2,
-    content: 'Cardio workouts are essential for a healthy heart and lungs. These exercises help you burn calories, lose weight, and boost your overall fitness. Whether it’s running, cycling, or swimming, cardio activities can be done indoors or outdoors, making them versatile and accessible for everyone.',
+    content: 'Improve your cardiovascular health, burn calories, and increase your stamina with various cardio exercises. Perfect for maintaining a healthy heart and weight.',
   },
   {
     id: 3,
@@ -504,8 +504,8 @@ function App() {
                 </form>
                 {bmiResult && (
                   <div id="bmi-result" className="bmi-result">
-                    <p>Your BMI is: {bmiResult.bmi}</p>
-                    <p>To achieve your goal, you should consume approximately {bmiResult.caloricIntake} calories per day.</p>
+                    <Typography variant="h6" style={{ color: 'black' }}>Your BMI is: {bmiResult.bmi}</Typography>
+                    <Typography variant="h6" style={{ color: 'black' }}>To achieve your goal, you should consume approximately {bmiResult.caloricIntake} calories per day.</Typography>
                   </div>
                 )}
               </Box>
@@ -513,8 +513,8 @@ function App() {
               <>
                 <img src={tab.image} alt={tab.label} className="feature-image" />
                 <div>
-                  <h3>{tab.label}</h3>
-                  <p>{tab.content}</p>
+                  <Typography variant="h3" style={{ color: 'var(--text-color)' }}>{tab.label}</Typography>
+                  <Typography variant="body1" style={{ color: 'var(--text-color)' }}>{tab.content}</Typography>
                 </div>
               </>
             )}
