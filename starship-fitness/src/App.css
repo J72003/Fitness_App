@@ -576,3 +576,61 @@ button:hover {
 .landing-page .MuiButton-textSecondary:hover {
   color: var(--accent-color);
 }
+
+
+/* BMI Calculator */
+.bmi-calculator {
+  background: linear-gradient(145deg, #1e2024, #23272b);
+  box-shadow: 10px 10px 19px #1c1e22, -10px -10px 19px #262a2e;
+  border-radius: 10px;
+  padding: 20px;
+  width: 100%;
+  margin: 10px 0;
+  animation: moving 1s ease;
+}
+
+.bmi-calculator h3 {
+  color: var(--text-color);
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.bmi-calculator .form-group {
+  margin-bottom: 20px;
+}
+
+.bmi-calculator label {
+  color: var(--text-color);
+  display: block;
+  margin-bottom: 5px;
+}
+
+.bmi-calculator input,
+.bmi-calculator select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid var(--text-color);
+  background-color: var(--background-color);
+  color: black;
+}
+
+.bmi-calculator button {
+  background-color: var(--accent-color);
+  color: rgb(15, 1, 1);
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.bmi-calculator button:hover {
+  background-color: #c40039;
+}
+
+.bmi-result {
+  margin-top: 20px;
+  color: #0c0c0c; /* Set the text color to black using hex code */
+}
+

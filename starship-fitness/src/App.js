@@ -13,26 +13,32 @@ import LandingPage from './LandingPage';
 const tabsData = [
   {
     id: 0,
-    label: 'Weight-Training',
+    label: 'Weight Training',
     image: Gym,
-    content: 'Build up those muscles! Strengthen bones, improve balance and prevent injuries. This type of strength training can be done with free weights or weight machines.,',
+    content: 'Build up those muscles! Strengthen bones, improve balance and prevent injuries. This type of strength training can be done with free weights or weight machines.',
   },
   {
     id: 1,
-    label: 'Body-Weight',
+    label: 'Body Weight',
     image: Feature1,
-    content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos accusantium itaque amet ducimus, magni iure a repudiandae molestias nemo voluptatibus voluptas earum excepturi architecto, iusto necessitatibus sequi perferendis veritatis! Voluptatem?',
+    content: 'Body-weight exercises provide a comprehensive workout that leverages your own weight to build muscle, enhance endurance, and improve flexibility. These exercises can be performed anywhere and are excellent for developing functional strength and coordination. Perfect for beginners and advanced fitness enthusiasts alike.',
   },
   {
     id: 2,
     label: 'Cardio',
     image: Feature2,
-    content: 'Raise your heart rate! Most calories are burnt while preforming any rythmic activity that raises your heart rate. When the heart rate reaches the target heart rate zone, which is  70%-80% of your max heart rate, you will burn the most calories and fat.',
+    content: 'Cardio workouts are essential for a healthy heart and lungs. These exercises help you burn calories, lose weight, and boost your overall fitness. Whether it’s running, cycling, or swimming, cardio activities can be done indoors or outdoors, making them versatile and accessible for everyone.',
   },
   {
     id: 3,
     label: 'Schedule Builder',
     image: Feature3,
+    content: '',
+  },
+  {
+    id: 4,
+    label: 'BMI Calculator',
+    image: '',
     content: '',
   },
 ];
@@ -158,6 +164,23 @@ const generateDetailedWorkoutSchedule = (age, experienceLevel, workoutType, work
   };
 };
 
+const calculateBMI = (height, weight) => {
+  const heightInMeters = height / 100;
+  return weight / (heightInMeters * heightInMeters);
+};
+
+const calculateCaloricNeeds = (weight, goal) => {
+  let caloricIntake;
+  if (goal === 'lose') {
+    caloricIntake = weight * 22 - 500; // Rough estimate for weight loss
+  } else if (goal === 'maintain') {
+    caloricIntake = weight * 22; // Rough estimate for maintenance
+  } else if (goal === 'gain') {
+    caloricIntake = weight * 22 + 500; // Rough estimate for weight gain
+  }
+  return caloricIntake;
+};
+
 function App() {
   const [currentTab, setCurrentTab] = useState(0);
   const [formData, setFormData] = useState({
@@ -168,11 +191,17 @@ function App() {
     email: '',
     password: '',
   });
+  const [bmiFormData, setBmiFormData] = useState({
+    height: '',
+    weight: '',
+    goal: '',
+  });
   const [schedule, setSchedule] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [loginError, setLoginError] = useState('');
   const [showScheduleDialog, setShowScheduleDialog] = useState(false);
+  const [bmiResult, setBmiResult] = useState(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -193,6 +222,10 @@ function App() {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleBmiChange = (e) => {
+    setBmiFormData({ ...bmiFormData, [e.target.name]: e.target.value });
   };
 
   const handleSignUp = async (email, password) => {
@@ -239,6 +272,19 @@ function App() {
     } catch (error) {
       console.error('Error generating schedule:', error);
     }
+  };
+
+  const handleBmiSubmit = (e) => {
+    e.preventDefault();
+    const { height, weight, goal } = bmiFormData;
+
+    const bmi = calculateBMI(parseFloat(height), parseFloat(weight));
+    const caloricIntake = calculateCaloricNeeds(parseFloat(weight), goal);
+
+    setBmiResult({
+      bmi: bmi.toFixed(2),
+      caloricIntake: caloricIntake.toFixed(0)
+    });
   };
 
   const handleCloseDialog = () => {
@@ -390,11 +436,84 @@ function App() {
                   </div>
                 )}
               </Box>
+            ) : currentTab === 4 && tab.id === 4 ? (
+              <Box className="tab-content form-container">
+                <Typography variant="h4" gutterBottom>BMI Calculator</Typography>
+                <form id="bmi-form" onSubmit={handleBmiSubmit}>
+                  <TextField
+                    label="Height (in cm)"
+                    name="height"
+                    value={bmiFormData.height}
+                    onChange={handleBmiChange}
+                    fullWidth
+                    margin="normal"
+                    variant="outlined"
+                    type="number"
+                    InputLabelProps={{
+                      style: { color: 'var(--form-text-color)' }, // Update label color
+                    }}
+                    InputProps={{
+                      style: { color: 'var(--form-text-color)' }, // Update input text color
+                    }}
+                  />
+                  <TextField
+                    label="Weight (in kg)"
+                    name="weight"
+                    value={bmiFormData.weight}
+                    onChange={handleBmiChange}
+                    fullWidth
+                    margin="normal"
+                    variant="outlined"
+                    type="number"
+                    InputLabelProps={{
+                      style: { color: 'var(--form-text-color)' }, // Update label color
+                    }}
+                    InputProps={{
+                      style: { color: 'var(--form-text-color)' }, // Update input text color
+                    }}
+                  />
+                  <TextField
+                    select
+                    label="Goal"
+                    name="goal"
+                    value={bmiFormData.goal}
+                    onChange={handleBmiChange}
+                    fullWidth
+                    margin="normal"
+                    variant="outlined"
+                    InputLabelProps={{
+                      style: { color: 'var(--form-text-color)' }, // Update label color
+                    }}
+                    InputProps={{
+                      style: { color: 'var(--form-text-color)' }, // Update input text color
+                    }}
+                  >
+                    <MenuItem value="lose">Lose 1 lb a week</MenuItem>
+                    <MenuItem value="maintain">Maintain weight</MenuItem>
+                    <MenuItem value="gain">Gain weight</MenuItem>
+                  </TextField>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    sx={{ mt: 2 }}
+                  >
+                    Calculate
+                  </Button>
+                </form>
+                {bmiResult && (
+                  <div id="bmi-result" className="bmi-result">
+                    <p>Your BMI is: {bmiResult.bmi}</p>
+                    <p>To achieve your goal, you should consume approximately {bmiResult.caloricIntake} calories per day.</p>
+                  </div>
+                )}
+              </Box>
             ) : (
               <>
                 <img src={tab.image} alt={tab.label} className="feature-image" />
                 <div>
-                  <h3>Lorem ipsum dolor</h3>
+                  <h3>{tab.label}</h3>
                   <p>{tab.content}</p>
                 </div>
               </>
