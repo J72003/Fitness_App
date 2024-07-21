@@ -42,6 +42,12 @@ const tabsData = [
     image: '',
     content: '',
   },
+  {
+    id: 5,
+    label: 'Log Workout',
+    image: '',
+    content: '',
+  },
 ];
 
 const generateDetailedWorkoutSchedule = (age, experienceLevel, workoutType, workoutDays) => {
@@ -349,7 +355,9 @@ function App() {
         <h1>Starship Fitness</h1>
         <nav>
           {isLoggedIn ? (
-            <button onClick={handleLogout}>Logout</button>
+            <>
+              <button onClick={handleLogout}>Logout</button>
+            </>
           ) : (
             <>
               <button onClick={() => setCurrentTab('login')}>Login</button>
@@ -557,6 +565,73 @@ function App() {
                   </div>
                 )}
               </Box>
+            ) : currentTab === 5 && tab.id === 5 ? (
+              <Box className="tab-content form-container">
+                <Typography variant="h4" gutterBottom>Log Your Workout</Typography>
+                <form onSubmit={handleWorkoutLogSubmit}>
+                  <TextField
+                    label="Date"
+                    name="date"
+                    value={workoutLog.date}
+                    onChange={handleWorkoutLogChange}
+                    fullWidth
+                    margin="normal"
+                    variant="outlined"
+                    type="date"
+                    InputLabelProps={{
+                      style: { color: 'var(--form-text-color)' }, // Update label color
+                    }}
+                    InputProps={{
+                      style: { color: 'var(--form-text-color)' }, // Update input text color
+                    }}
+                  />
+                  <TextField
+                    select
+                    label="Workout Type"
+                    name="workoutType"
+                    value={workoutLog.workoutType}
+                    onChange={handleWorkoutLogChange}
+                    fullWidth
+                    margin="normal"
+                    variant="outlined"
+                    InputLabelProps={{
+                      style: { color: 'var(--form-text-color)' }, // Update label color
+                    }}
+                    InputProps={{
+                      style: { color: 'var(--form-text-color)' }, // Update input text color
+                    }}
+                  >
+                    <MenuItem value="Weight-Training">Weight-Training</MenuItem>
+                    <MenuItem value="Body-Weight">Body-Weight</MenuItem>
+                    <MenuItem value="Cardio">Cardio</MenuItem>
+                  </TextField>
+                  <TextField
+                    label="Calories Consumed"
+                    name="calories"
+                    value={workoutLog.calories}
+                    onChange={handleWorkoutLogChange}
+                    fullWidth
+                    margin="normal"
+                    variant="outlined"
+                    type="number"
+                    InputLabelProps={{
+                      style: { color: 'var(--form-text-color)' }, // Update label color
+                    }}
+                    InputProps={{
+                      style: { color: 'var(--form-text-color)' }, // Update input text color
+                    }}
+                  />
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    sx={{ mt: 2 }}
+                  >
+                    Log Workout
+                  </Button>
+                </form>
+              </Box>
             ) : (
               <>
                 <img src={tab.image} alt={tab.label} className="feature-image" />
@@ -569,72 +644,6 @@ function App() {
           </div>
         ))}
       </div>
-      <Box className="form-container" sx={{ mt: 4 }}>
-        <Typography variant="h4" gutterBottom>Log Your Workout</Typography>
-        <form onSubmit={handleWorkoutLogSubmit}>
-          <TextField
-            label="Date"
-            name="date"
-            value={workoutLog.date}
-            onChange={handleWorkoutLogChange}
-            fullWidth
-            margin="normal"
-            variant="outlined"
-            type="date"
-            InputLabelProps={{
-              style: { color: 'var(--form-text-color)' }, // Update label color
-            }}
-            InputProps={{
-              style: { color: 'var(--form-text-color)' }, // Update input text color
-            }}
-          />
-          <TextField
-            select
-            label="Workout Type"
-            name="workoutType"
-            value={workoutLog.workoutType}
-            onChange={handleWorkoutLogChange}
-            fullWidth
-            margin="normal"
-            variant="outlined"
-            InputLabelProps={{
-              style: { color: 'var(--form-text-color)' }, // Update label color
-            }}
-            InputProps={{
-              style: { color: 'var(--form-text-color)' }, // Update input text color
-            }}
-          >
-            <MenuItem value="Weight-Training">Weight-Training</MenuItem>
-            <MenuItem value="Body-Weight">Body-Weight</MenuItem>
-            <MenuItem value="Cardio">Cardio</MenuItem>
-          </TextField>
-          <TextField
-            label="Calories Consumed"
-            name="calories"
-            value={workoutLog.calories}
-            onChange={handleWorkoutLogChange}
-            fullWidth
-            margin="normal"
-            variant="outlined"
-            type="number"
-            InputLabelProps={{
-              style: { color: 'var(--form-text-color)' }, // Update label color
-            }}
-            InputProps={{
-              style: { color: 'var(--form-text-color)' }, // Update input text color
-            }}
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-            sx={{ mt: 2 }}
-          >
-            Log Workout
-          </Button>
-        </form>
-      </Box>
       {workoutHistory.length > 0 && (
         <Box className="schedule-container" sx={{ mt: 4 }}>
           <Typography variant="h4" gutterBottom style={{ color: 'var(--accent-color)' }}>
