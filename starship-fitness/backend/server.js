@@ -29,7 +29,7 @@ mongoose.connect(process.env.MONGO_URI, {
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
-// Define a Mongoose schema and model for workout recommendations
+// Define a Mongoose 
 const recommendationSchema = new mongoose.Schema({
   fitnessLevel: String,
   workoutType: String,

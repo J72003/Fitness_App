@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 
 :root {
-  --primary-color: #352F44; /* Dark purple */
+  --primary-color: #352F44; /* purple */
   --secondary-color: #5C5470; /* Medium purple */
-  --accent-color: #f9004d; /* Bright pink */
-  --text-color: #c4cfde; /* Light gray */
+  --accent-color: #f9004d; /* pink */
+  --text-color: #c4cfde; /* gray */
   --background-color: #212428; /* Dark gray */
   --form-background-color: #FFFFFF; /* White */
   --form-text-color: #000000; /* Black */
@@ -482,7 +482,7 @@ button:hover {
   background-color: rgba(249, 0, 77, 0.08);
 }
 
-/* Additional styles for the dialog content */
+/* Additional styles */
 .MuiCard-root {
   background-color: var(--secondary-color);
   color: var(--text-color);
@@ -631,6 +631,6 @@ button:hover {
 
 .bmi-result {
   margin-top: 20px;
-  color: #0c0c0c; /* Set the text color to black using hex code */
+  color: #0c0c0c; /*  black using hex code */
 }
 
