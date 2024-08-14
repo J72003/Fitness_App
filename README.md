@@ -5,7 +5,6 @@ It's called Starship Fitness!
 ## Features
 
 - **Personalized Questionnaire**: Users can fill out a form to receive workout recommendations based on their answers.
-- **Map Integration**: Displays nearby gyms based on user location using the TomTom API.
 - **Responsive Design**: Optimized for both mobile and desktop users.
 - **Firebase Authentication**: Secure login and registration.
 - **Database Integration**: Stores user data and recommendations in Firebase and MongoDB.
